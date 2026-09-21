@@ -1,0 +1,398 @@
+/* ==========================================================================
+   Register — "ticket stub" theme
+   A dark ticket panel + a paper form panel, split by a perforated tear-line.
+   ========================================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --ink: #1b2430;
+    --ink-soft: #293544;
+    --paper: #fbf8f3;
+    --paper-edge: #e7e0d3;
+    --amber: #e8873a;
+    --amber-dark: #c96a22;
+    --sage: #3f8f5f;
+    --sage-bg: #e7f3ea;
+    --rust: #c1443c;
+    --rust-bg: #fbeae8;
+    --slate: #6b7280;
+    --slate-dark: #3a4250;
+}
+
+.register-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 32px 20px;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+    background-color: var(--paper);
+    background-image:
+        radial-gradient(circle at 50% 0%, rgba(232, 135, 58, 0.08), transparent 55%),
+        repeating-radial-gradient(
+            circle at 0 0,
+            rgba(27, 36, 48, 0.05) 0,
+            rgba(27, 36, 48, 0.05) 1.5px,
+            transparent 1.5px,
+            transparent 22px
+        );
+}
+
+.ticket-card {
+    width: 100%;
+    max-width: 900px;
+    min-height: 560px;
+    display: grid;
+    grid-template-columns: 0.85fr 22px 1.15fr;
+    background: var(--paper);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px -20px rgba(27, 36, 48, 0.35);
+}
+
+/* ---------- left: ticket panel ---------- */
+
+.ticket-panel {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 48px 40px;
+    display: flex;
+    align-items: center;
+    animation: slideInLeft 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.ticket-panel-inner {
+    max-width: 320px;
+}
+
+.ticket-badge {
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--amber);
+    border: 1px solid rgba(232, 135, 58, 0.4);
+    border-radius: 999px;
+    padding: 5px 12px;
+    margin-bottom: 24px;
+}
+
+.ticket-panel h1 {
+    font-size: 32px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 16px 0;
+    color: #ffffff;
+}
+
+.ticket-copy {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #b7c0cc;
+    margin: 0 0 28px 0;
+}
+
+.ticket-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.ticket-list li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 14px;
+    color: #dfe4ea;
+    margin-bottom: 10px;
+}
+
+.ticket-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--amber);
+}
+
+/* ---------- middle: perforated tear-line ---------- */
+
+.perforation {
+    position: relative;
+    background: repeating-linear-gradient(
+        to bottom,
+        var(--paper-edge) 0,
+        var(--paper-edge) 6px,
+        transparent 6px,
+        transparent 16px
+    );
+    animation: tearReveal 0.6s ease-out 0.45s both;
+}
+
+.perforation::before,
+.perforation::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--paper);
+    transform: translateX(-50%);
+}
+
+.perforation::before {
+    top: -13px;
+}
+
+.perforation::after {
+    bottom: -13px;
+}
+
+/* ---------- right: form panel ---------- */
+
+.form-panel {
+    padding: 48px 44px;
+    display: flex;
+    align-items: center;
+    animation: slideInRight 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.form-panel-inner {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+}
+
+.form-panel h2 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 0 0 6px 0;
+}
+
+.form-subtitle {
+    font-size: 14px;
+    color: var(--slate);
+    margin: 0 0 26px 0;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--slate-dark);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--paper-edge);
+    border-radius: 9px;
+    font-size: 15px;
+    color: var(--ink);
+    background: #fff;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-group input:focus {
+    border-color: var(--amber);
+    box-shadow: 0 0 0 3px rgba(232, 135, 58, 0.18);
+}
+
+.form-group input::placeholder {
+    color: #b7bcc4;
+}
+
+.register-card button,
+.form-panel button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 6px;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--amber);
+    transition: transform 0.12s ease, background 0.15s ease;
+}
+
+.form-panel button:hover {
+    background: var(--amber-dark);
+}
+
+.form-panel button:active {
+    transform: scale(0.98);
+}
+
+.form-panel button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
+}
+
+.success-message,
+.error-message {
+    padding: 11px 14px;
+    margin-bottom: 18px;
+    border-radius: 9px;
+    font-size: 13.5px;
+}
+
+.success-message {
+    background: var(--sage-bg);
+    color: var(--sage);
+    border: 1px solid rgba(63, 143, 95, 0.25);
+}
+
+.error-message {
+    background: var(--rust-bg);
+    color: var(--rust);
+    border: 1px solid rgba(193, 68, 60, 0.25);
+}
+
+.login-hint {
+    margin: 20px 0 0 0;
+    font-size: 13.5px;
+    color: var(--slate);
+    text-align: center;
+}
+
+.login-link {
+    color: var(--amber-dark);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}
+
+/* ---------- motion ---------- */
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes tearReveal {
+    from {
+        opacity: 0;
+        clip-path: inset(50% 0 50% 0);
+    }
+    to {
+        opacity: 1;
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ticket-panel,
+    .form-panel,
+    .perforation {
+        animation: none;
+    }
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 760px) {
+    .ticket-card {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        max-width: 440px;
+    }
+
+    .ticket-panel {
+        padding: 32px 28px;
+    }
+
+    .ticket-panel-inner {
+        max-width: none;
+    }
+
+    .ticket-copy,
+    .ticket-list {
+        display: none;
+    }
+
+    .ticket-panel h1 {
+        font-size: 24px;
+        margin-bottom: 0;
+    }
+
+    .perforation {
+        height: 22px;
+        background: repeating-linear-gradient(
+            to right,
+            var(--paper-edge) 0,
+            var(--paper-edge) 6px,
+            transparent 6px,
+            transparent 16px
+        );
+    }
+
+    .perforation::before,
+    .perforation::after {
+        top: 50%;
+        left: auto;
+        transform: translateY(-50%);
+    }
+
+    .perforation::before {
+        left: -13px;
+    }
+
+    .perforation::after {
+        left: auto;
+        right: -13px;
+        bottom: auto;
+    }
+
+    .form-panel {
+        padding: 32px 28px;
+    }
+}
+
+@media (max-width: 400px) {
+    .register-page {
+        padding: 0;
+    }
+
+    .ticket-card {
+        border-radius: 0;
+        min-height: 100vh;
+    }
+}
