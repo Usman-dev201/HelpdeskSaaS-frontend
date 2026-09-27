@@ -17,6 +17,9 @@ function Tickets() {
     const [showCreateModal, setShowCreateModal] =useState(false);
     const [createLoading, setCreateLoading] = useState(false);
  const [createError, setCreateError] = useState("");
+ const [statusHistory, setStatusHistory] = useState([]);
+const [historyLoading, setHistoryLoading] = useState(false);
+const [historyError, setHistoryError] = useState("");
 
     const [newTicket, setNewTicket] = useState({
         ticketTitle: "",
@@ -95,6 +98,51 @@ const [commentError, setCommentError] = useState("");
 
         }
     };
+
+    /* =====================================================
+   LOAD STATUS HISTORY
+   ===================================================== */
+
+const loadStatusHistory = async (ticketId) => {
+
+    try {
+
+        setHistoryLoading(true);
+        setHistoryError("");
+
+        const response = await api.get(
+            `/TicketStatusHistory/ticket/${ticketId}`
+        );
+
+        setStatusHistory(response.data);
+
+    } catch (err) {
+
+        console.error(
+            "Status history loading error:",
+            err
+        );
+
+        if (typeof err.response?.data === "string") {
+
+            setHistoryError(
+                err.response.data
+            );
+
+        } else {
+
+            setHistoryError(
+                err.response?.data?.message ||
+                "Unable to load status history."
+            );
+        }
+
+    } finally {
+
+        setHistoryLoading(false);
+
+    }
+};
 /* =====================================================
    LOAD AGENTS
    ===================================================== */
@@ -680,18 +728,29 @@ const openManageModal = async (ticket) => {
         ] || 1
     );
 
-  setActionError("");
-  setComments([]);
-setCommentMessage("");
-setCommentError("");
+    setActionError("");
 
-await loadComments(ticket.ticketId);
+    // Reset comments
+    setComments([]);
+    setCommentMessage("");
+    setCommentError("");
 
-if (currentRole === "Admin") {
-    await loadAgents();
-}
+    // Reset history
+    setStatusHistory([]);
+    setHistoryError("");
 
-setShowManageModal(true);
+    // Load comments
+    await loadComments(ticket.ticketId);
+
+    // Load status history
+    await loadStatusHistory(ticket.ticketId);
+
+    // Load agents only for Admin
+    if (currentRole === "Admin") {
+        await loadAgents();
+    }
+
+    setShowManageModal(true);
 };
     /* =====================================================
        STATUS CLASS
@@ -1456,15 +1515,20 @@ setShowManageModal(true);
 
         <div className="manage-actions">
 
-            <button
-                className="submit-ticket-button"
-                onClick={handleAssignTicket}
-                disabled={actionLoading}
-            >
-                {actionLoading
-                    ? "Processing..."
-                    : "Assign Agent"}
-            </button>
+           <button
+    className="submit-ticket-button"
+    onClick={handleAssignTicket}
+    disabled={
+        actionLoading ||
+        !!selectedTicket.assignedAgentId
+    }
+>
+    {actionLoading
+        ? "Processing..."
+        : selectedTicket.assignedAgentId
+            ? "Already Assigned"
+            : "Assign Agent"}
+</button>
 
             <button
                 className="unassign-button"
@@ -1546,6 +1610,108 @@ setShowManageModal(true);
                 </button>
 
             </div>
+            {/* STATUS HISTORY */}
+
+<div className="status-history-section">
+
+    <div className="status-history-header">
+
+        <div>
+            <span className="section-label">
+                ACTIVITY
+            </span>
+
+            <h3>Status History</h3>
+        </div>
+
+        <span className="history-count">
+            {statusHistory.length}
+        </span>
+
+    </div>
+
+
+    {historyError && (
+        <div className="history-error">
+            {historyError}
+        </div>
+    )}
+
+
+    <div className="status-history-list">
+
+        {historyLoading ? (
+
+            <div className="history-loading">
+                Loading status history...
+            </div>
+
+        ) : statusHistory.length === 0 ? (
+
+            <div className="no-history">
+                No status changes yet.
+            </div>
+
+        ) : (
+
+            statusHistory.map((history) => (
+
+                <div
+                    className="history-item"
+                    key={history.historyId}
+                >
+
+                    <div className="history-dot">
+                    </div>
+
+
+                    <div className="history-content">
+
+                        <div className="history-status-change">
+
+                            <span className="history-old-status">
+                                {history.oldStatus}
+                            </span>
+
+                            <span className="history-arrow">
+                                →
+                            </span>
+
+                            <span className="history-new-status">
+                                {history.newStatus}
+                            </span>
+
+                        </div>
+
+
+                        <div className="history-meta">
+
+                            <span>
+                                Changed by{" "}
+                                <strong>
+                                    {history.changedByUserName}
+                                </strong>
+                            </span>
+
+                            <span>
+                                {new Date(
+                                    history.changedAt
+                                ).toLocaleString()}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            ))
+
+        )}
+
+    </div>
+
+</div>
             {/* COMMENTS */}
 
             <div className="comments-section">

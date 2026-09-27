@@ -54,37 +54,283 @@
     gap: 18px;
 }
 
+/* ============================= */
+/* NOTIFICATION WRAPPER */
+/* ============================= */
+
+.notification-wrapper {
+    position: relative;
+}
+
+
+/* ============================= */
+/* NOTIFICATION BUTTON */
+/* ============================= */
+
 .notification-button {
     position: relative;
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     border: none;
     background: transparent;
 
-    color: #6b7280;
+    border-radius: 10px;
 
-    font-size: 21px;
+    font-size: 24px;
 
     cursor: pointer;
 
-    padding: 5px;
+    transition: background 0.2s ease;
 }
+
+.notification-button:hover {
+    background: #f1f5f9;
+}
+
+
+/* ============================= */
+/* NOTIFICATION DOT */
+/* ============================= */
 
 .notification-dot {
     position: absolute;
 
-    top: 2px;
-    right: 1px;
+    top: 8px;
+    right: 8px;
 
-    width: 6px;
-    height: 6px;
+    width: 9px;
+    height: 9px;
+
+    background: #ef4444;
+
+    border: 2px solid white;
 
     border-radius: 50%;
-
-    background: #e8873a;
-
-    border: 2px solid #fbf8f3;
 }
 
+
+/* ============================= */
+/* NOTIFICATION PANEL */
+/* ============================= */
+
+.notification-panel {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 360px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    z-index: 1000;
+    overflow: hidden;
+}
+
+
+/* ============================= */
+/* NOTIFICATION HEADER */
+/* ============================= */
+
+.notification-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 15px 16px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    background: #ffffff;
+}
+
+.notification-header strong {
+    font-size: 15px;
+
+    color: #111827;
+}
+
+.notification-header button {
+    border: none;
+
+    background: transparent;
+
+    color: #2563eb;
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    cursor: pointer;
+
+    padding: 4px 6px;
+
+    border-radius: 5px;
+}
+
+.notification-header button:hover {
+    background: #eff6ff;
+}
+
+
+/* ============================= */
+/* NOTIFICATION LIST */
+/* ============================= */
+
+.notification-list {
+    max-height: 400px;
+
+    overflow-y: auto;
+}
+
+
+/* ============================= */
+/* NOTIFICATION ITEM */
+/* ============================= */
+
+.notification-item {
+    padding: 14px 16px;
+
+    border-bottom: 1px solid #f1f5f9;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-item:hover {
+    background: #f8fafc;
+}
+
+
+/* ============================= */
+/* UNREAD NOTIFICATION */
+/* ============================= */
+
+.notification-item.unread {
+    background: #eff6ff;
+
+    border-left: 3px solid #2563eb;
+}
+
+.notification-item.unread:hover {
+    background: #e0f2fe;
+}
+
+
+/* ============================= */
+/* READ NOTIFICATION */
+/* ============================= */
+
+.notification-item.read {
+    background: #ffffff;
+
+    border-left: 3px solid transparent;
+}
+
+.notification-item.read
+.notification-message {
+    color: #6b7280;
+}
+
+
+/* ============================= */
+/* MESSAGE */
+/* ============================= */
+
+.notification-message {
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    color: #1f2937;
+
+    margin-bottom: 6px;
+}
+
+
+/* ============================= */
+/* TIME */
+/* ============================= */
+
+.notification-item small {
+    display: block;
+
+    font-size: 11px;
+
+    color: #9ca3af;
+}
+
+
+/* ============================= */
+/* NO NOTIFICATIONS */
+/* ============================= */
+
+.no-notifications {
+    padding: 35px 20px;
+
+    text-align: center;
+
+    font-size: 13px;
+
+    color: #9ca3af;
+}
+
+
+/* ============================= */
+/* SCROLLBAR */
+/* ============================= */
+
+.notification-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.notification-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.notification-list::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+
+    border-radius: 10px;
+}
+
+
+/* ============================= */
+/* MOBILE */
+/* ============================= */
+
+@media (max-width: 600px) {
+
+    .notification-panel {
+        position: fixed;
+
+        top: 65px;
+
+        left: 15px;
+        right: 15px;
+
+        width: auto;
+
+        max-width: none;
+    }
+
+    .notification-list {
+        max-height: 60vh;
+    }
+
+}
 .topbar-divider {
     width: 1px;
     height: 30px;

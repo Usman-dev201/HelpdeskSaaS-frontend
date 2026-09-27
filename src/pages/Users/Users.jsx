@@ -440,7 +440,7 @@ function Users() {
                             </div>
                         )}
 
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit} autoComplete="off">
 
                             <div className="form-group">
 
@@ -452,6 +452,8 @@ function Users() {
                                     value={formData.userName}
                                     onChange={handleChange}
                                     placeholder="Enter user name"
+                                        autoComplete="off"
+
                                 />
 
                             </div>
@@ -466,6 +468,8 @@ function Users() {
                                     value={formData.email}
                                     onChange={handleChange}
                                     placeholder="Enter email"
+                                        autoComplete="off"
+
                                 />
 
                             </div>
@@ -482,16 +486,17 @@ function Users() {
                                 </label>
 
                                 <input
-                                    type="password"
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    placeholder={
-                                        editingUser
-                                            ? "Leave blank to keep current password"
-                                            : "Enter password"
-                                    }
-                                />
+    type="password"
+    name="password"
+    value={formData.password}
+    onChange={handleChange}
+    placeholder={
+        editingUser
+            ? "Leave blank to keep current password"
+            : "Enter password"
+    }
+    autoComplete="new-password"
+/>
 
                             </div>
 

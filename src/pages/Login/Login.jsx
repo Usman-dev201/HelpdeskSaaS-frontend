@@ -44,37 +44,92 @@ const handleSubmit = async (e) => {
         console.log("Login response:", response.data);
 
         if (response.data?.token) {
+
             localStorage.setItem(
                 "token",
                 response.data.token
             );
 
-            // Login successful → Dashboard
-            navigate("/dashboard");
+            // Notify NotificationContext
+            // that authentication has changed
+            window.dispatchEvent(
+                new Event("authChanged")
+            );
+
+            // Navigate according to role
+            if (response.data.role === "Admin") {
+
+                navigate("/dashboard");
+
+            } else if (
+                response.data.role === "Agent" ||
+                response.data.role === "Customer"
+            ) {
+
+                navigate("/tickets");
+
+            } else {
+
+                setError("Invalid user role.");
+
+            }
+
         } else {
-            setError("Login failed. Token not received.");
+
+            setError(
+                "Login failed. Token not received."
+            );
+
         }
 
     } catch (err) {
-        console.error("Login error:", err);
+
+        console.error(
+            "Login error:",
+            err
+        );
 
         if (err.response) {
-            if (typeof err.response.data === "string") {
-                setError(err.response.data);
-            } else if (err.response.data?.message) {
-                setError(err.response.data.message);
+
+            if (
+                typeof err.response.data ===
+                "string"
+            ) {
+
+                setError(
+                    err.response.data
+                );
+
+            } else if (
+                err.response.data?.message
+            ) {
+
+                setError(
+                    err.response.data.message
+                );
+
             } else {
-                setError("Invalid email or password.");
+
+                setError(
+                    "Invalid email or password."
+                );
+
             }
+
         } else {
-            setError("Unable to connect to the backend.");
+
+            setError(
+                "Unable to connect to the backend."
+            );
+
         }
 
     } finally {
+
         setLoading(false);
+
     }
 };
-
     return (
         <div className="login-page">
 
