@@ -38,7 +38,7 @@ export const startNotificationConnection = async (
 
     connection = new HubConnectionBuilder()
         .withUrl(
-            "https://localhost:7077/notificationHub",
+            "https://helpdesk-usman-dnbbb9dsagb2cuhu.westus3-01.azurewebsites.net/notificationHub",
             {
                 accessTokenFactory: () =>
                     localStorage.getItem("token") || ""
@@ -136,7 +136,7 @@ export const getNotifications = async () => {
     try {
 
         const response = await fetch(
-            "https://localhost:7077/api/notifications",
+            "https://helpdesk-usman-dnbbb9dsagb2cuhu.westus3-01.azurewebsites.net/api/notifications",
             {
                 method: "GET",
 
@@ -228,7 +228,7 @@ export const markNotificationAsRead = async (
     try {
 
         const response = await fetch(
-            `https://localhost:7077/api/notifications/${notificationId}/read`,
+            `https://helpdesk-usman-dnbbb9dsagb2cuhu.westus3-01.azurewebsites.net/api/notifications/${notificationId}/read`,
             {
                 method: "PUT",
 
@@ -285,7 +285,7 @@ export const markAllNotificationsAsRead =
         try {
 
             const response = await fetch(
-                "https://localhost:7077/api/notifications/read-all",
+                "https://helpdesk-usman-dnbbb9dsagb2cuhu.westus3-01.azurewebsites.net/api/notifications/read-all",
                 {
                     method: "PUT",
 
